@@ -4,7 +4,7 @@
         <script>
             async function test() {
                 const session = new onnx.InferenceSession()
-                await session.loadModel("../onnx_model.onnx")
+                await session.loadModel("../onnx_model_sm.onnx")
                 const inputTensor = new onnx.Tensor(new Float32Array(28 * 28), 'float32', [1, 1, 28, 28])
                 const outputMap = await session.run([inputTensor])
                 const outputTensor = outputMap.values().next().value
