@@ -12,7 +12,7 @@ def main():
     
     # Export the model to ONNX format
     dummy_input = torch.randn(1, 1, 28, 28)  # Example input tensor
-    torch.onnx.export(model, dummy_input, "onnx_model.onnx", verbose=True)
+    torch.onnx.export(model, dummy_input, "onnx_model.onnx", verbose=True, opset_version=9)
 
 
 if __name__ == '__main__':
