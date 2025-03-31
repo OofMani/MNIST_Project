@@ -11,7 +11,7 @@ def main():
     model.eval()
     
     # Export the model to ONNX format
-    dummy_input = torch.randn(1, 1, 28, 28)  # Example input tensor
+    dummy_input = torch.randn(280 * 280 * 4)  # Example input tensor
     torch.onnx.export(model, dummy_input, "onnx_model_sm.onnx", verbose=True, opset_version=9)
 
 

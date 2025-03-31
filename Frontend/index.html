@@ -1,15 +1,19 @@
 <html>
-    <body>
-        <script src="https://cdn.jsdelivr.net/npm/onnxjs/dist/onnx.min.js"></script>
-        <script>
-            async function test() {
-                const session = new onnx.InferenceSession()
-                await session.loadModel("../onnx_model_sm.onnx")
-                const inputTensor = new onnx.Tensor(new Float32Array(28 * 28), 'float32', [1, 1, 28, 28])
-                const outputMap = await session.run([inputTensor])
-                const outputTensor = outputMap.values().next().value
-                console.log(` Output tensor: ${outputTensor.data}`)
-            }
-            test()
-        </script>
-    </body>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/onnxjs/dist/onnx.min.js"></script>
+    <script>
+      async function test() {
+        const session = new onnx.InferenceSession();
+        await session.loadModel("../onnx_model_sm.onnx");
+
+        // Create a dummy input tensor as a flat array of 313600 elements.
+        const inputTensor = new onnx.Tensor(new Float32Array(280 * 280 * 4), 'float32', [313600]);
+
+        const outputMap = await session.run([inputTensor]);
+        const outputTensor = outputMap.values().next().value;
+        console.log(`Output tensor: ${outputTensor.data}`);
+      }
+      test();
+    </script>
+  </body>
+</html>

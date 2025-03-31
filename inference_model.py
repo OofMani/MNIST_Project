@@ -6,6 +6,9 @@ import torch.optim as optim  # Provides optimization algorithms
 from torchvision import datasets, transforms  # For loading datasets and applying transformations
 from torch.optim.lr_scheduler import StepLR  # For scheduling the learning rate
 
+
+MEAN = 0.1307
+STD = 0.3081
 # -------------------------------
 # Define the Neural Network Model
 # -------------------------------
@@ -25,6 +28,17 @@ class Net(nn.Module):
         self.fc2 = nn.Linear(128, 10)
 
     def forward(self, x):
+        
+        #Reshape
+        x = x.reshape(280, 280, 4)
+        #x = x [:, :, 3]
+        x = torch.narrow(x, dim=2, start=3, length=1)
+        x = x.reshape(1, 1, 280, 280)
+        x = F.avg_pool2d(x, 10, stride=10)
+        x = x/255
+        x = (x - MEAN) / STD
+
+
         # First convolution and ReLU activation
         x = self.conv1(x)
         x = F.relu(x)
