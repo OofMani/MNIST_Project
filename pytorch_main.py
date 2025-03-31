@@ -104,8 +104,8 @@ def main():
     
     # Early stopping parameters
     target_accuracy = 95.0   # Stop training if accuracy reaches or exceeds 95%
-    patience = 4             # Number of epochs to wait without significant improvement before stopping
-    min_delta = 0.05          # Minimum improvement (in percentage points) to reset patience
+    patience = 10            # Number of epochs to wait without significant improvement before stopping
+    min_delta = 0.01          # Minimum improvement (in percentage points) to reset patience
     
     # Set random seed for reproducibility
     torch.manual_seed(seed)
@@ -158,10 +158,11 @@ def main():
         if accuracy - best_accuracy >= min_delta:
             best_accuracy = accuracy
             no_improvement_count = 0  # Reset patience counter if improvement is significant
+            print(f"Significant improvement: new best accuracy = {best_accuracy:.2f}%. Patience counter reset to 0.")
         else:
             no_improvement_count += 1
-            print(f"No significant improvement for {no_improvement_count} epoch(s).")
-        
+            print(f"No significant improvement for {no_improvement_count} epoch(s). Threshold for improvement: {best_accuracy + min_delta:.2f}%")
+                    
         # If no significant improvement for a number of epochs, stop training
         if no_improvement_count >= patience:
             print(f"No significant improvement in the last {patience} epochs. Early stopping.")
